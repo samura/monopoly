@@ -14,7 +14,7 @@
         url: '/',
         views: {'@': {
           controller: 'MonopolyController',
-          templateUrl: '/views/view.html'
+          templateUrl: 'views/view.html'
         }}
       });
     }
