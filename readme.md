@@ -8,7 +8,7 @@ A very simple implementation of the Monopoly game.
 - This is not a finished product, please open it on a browser greater than 1024px wide.
 
 ## Demo
-Visit the demo page 
+Visit the demo page http://samura.github.io/monopoly/
 
 ## Requirements
 - npm
@@ -16,7 +16,7 @@ Visit the demo page
 ## Instalation
 This show be enough to get everything installed and server running.
 ```bash
-git clone https://github.com/samura/...
+git clone https://github.com/samura/monopoly
 cd monopoly
 npm start
 ``` 
