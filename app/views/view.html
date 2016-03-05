@@ -1,0 +1,175 @@
+<div class="row" ng-init="init()">
+  <div class="left-side col-xs-4">
+
+    <div class="header row">
+      <div class="col-xs-12 top">
+        <h1>Monopoly
+          <button class="btn btn-xs btn-warning" ng-click="init()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+          <button class="btn btn-xs btn-success" ng-click="handicap()">Handicap</button>
+        </h1>
+
+        <!-- player information -->
+        <div class="form-group" ng-repeat="player in players">
+          <div class="input-group">
+            <div class="input-group-addon" ng-class="'alert-'+player.color" ng-bind="player.name"></div>
+            <input type="text" class="form-control" disabled placeholder="${{player.account}}.00">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <h2>Moves</h2>
+
+        <!-- turns history -->
+        <div class="history">
+          <div ng-repeat="(i, turn) in history | orderBy:'-' track by $index" class="panel" ng-class="'panel-' + turn.color">
+            <div class="panel-heading">#{{history.length-i}}</div>
+            <div class="panel-body">
+              <div ng-repeat="entry in turn.entries track by $index" class="entry" ng-bind="entry"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-side col-xs-8">
+    <div class="play-table">
+      <!-- table -->
+      <img src="/images/monopoly.jpg" alt="">
+
+      <div class="panel panel-warning pull-right">
+        <div class="panel-heading" ng-bind="turnInfo.property.name"></div>
+        <div class="panel-body">
+           <span ng-if="turnInfo.property.owner"><b>Owner: </b><span ng-bind="turnInfo.property.owner.name">-</span><br/></span>
+           <span ng-if="turnInfo.property.group"><b>Group: </b><span ng-bind="turnInfo.property.group"></span><br/></span>
+           <span ng-if="turnInfo.property.buildings"><b>Buildinds: </b><span ng-bind="turnInfo.property.buildings"></span><br/></span>
+           <span ng-if="turnInfo.property.rent"><b>Rent: </b>$<span ng-bind="turnInfo.property.rent"></span><br/></span>
+        </div>
+      </div>
+      
+      <div class="dices pull-right" ng-bind="turnInfo.dices"></div>
+
+
+      <!-- draw players -->
+      <div ng-repeat="player in players" class="player-position" ng-class="'position-' + player.position + ' text-' + player.color" ng-style="{'margin-left': ($index*5)+'px'}">
+        <i class="glyphicon" ng-class="'glyphicon-'+player.piece"></i>
+      </div>
+
+      <!-- draw houses -->
+      <div ng-repeat="property in properties" ng-if="property.owner" class="property-position" ng-class="'position-' + $index + ' alert-' + property.owner.color">
+        <i ng-if="!property.buildings" class="glyphicon glyphicon-lock"></i>
+        <i ng-repeat="i in getTimes(property.buildings) track by $index" class="glyphicon glyphicon-home"></i>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <nav class="col-xs-12 navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li ng-class="{'active': tab=='actions'}"><a href ng-click="tab='actions'">Actions</a></li>
+              <li ng-class="{'active': tab=='build'}"><a href ng-click="tab='build'">Build</a></li>
+              <li ng-class="{'active': tab=='sell'}"><a href ng-click="tab='sell'">Sell</a></li>
+            </ul>
+
+            <a href ng-click="play()" class="pull-right btn btn-md btn-success" ng-class="{disabled: !turnInfo.ready}">Next turn <span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a>
+          </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+      </nav>
+
+      <div ng-switch="tab" class="col-xs-12">
+        <!-- actions -->
+        <div class="col-xs-12" ng-switch-when="actions">
+          <div ng-if="!turnInfo.ready && turnInfo.pay">
+            <div class="alert alert-danger" ng-if="turnInfo.pay > turnInfo.player.account && turnInfo.player.properties.length">
+              <p class="col-xs-10">You don’t have enough funds to pay $<span ng-bind="turnInfo.pay"></span>.</p>
+              <div class="clearfix"></div>
+            </div>
+            <div class="alert alert-danger">
+              <p class="col-xs-10">You need to pay $<span ng-bind="turnInfo.pay"></span>.00 of rent/tax to continue.</p>
+              <span class="col-xs-2" ng-if="turnInfo.pay <= turnInfo.player.account"><button class="btn btn-xs btn-danger pull-right" ng-click="pay()">Pay</button></span>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="alert alert-info" ng-if="turnInfo.ready && turnInfo.canBuy && !turnInfo.property.owner">
+            <p class="col-xs-10">Property "<span ng-bind="turnInfo.property.name"></span>" is available for $<span ng-bind="turnInfo.property.price"></span>. Do you want to buy it?</p>
+            <span class="col-xs-2"><button class="btn btn-xs btn-info pull-right" ng-click="buy()">Buy</button></span>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <!-- build -->
+        <div class="col-xs-12" ng-switch-when="build">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Property name</th>
+                <th>Group</th>
+                <th>Current # houses</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="property in whereBuildings">
+                <td ng-bind="property.name"></td>
+                <td ng-bind="property.group"></td>
+                <td ng-bind="property.buildings"></td>
+                <td><button class="btn btn-xs btn-success" ng-click="build(property)">Build</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- sell -->
+        <div class="col-xs-12" ng-switch-when="sell">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Property name</th>
+                <th>Group</th>
+                <th>Current # houses</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="property in turnInfo.player.properties">
+                <td ng-bind="property.name"></td>
+                <td ng-bind="property.group"></td>
+                <td ng-bind="property.buildings"></td>
+                <td><button class="btn btn-xs btn-danger" ng-click="sell(property)">Sell <span ng-bind="property.buildings?'house':'property'"></span></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<script type="text/ng-template" id="backrupt.html">
+  <div class="modal-body">
+    <h3 class="modal-title">Player <span ng-bind="turnInfo.player.name"></span> is bankrupt!</h3>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="cancel()">Close</button>
+    <button class="btn btn-primary" type="button" ng-click="rematch()">Play Again</button>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="noFunds.html">
+  <div class="modal-body">
+    <h3 class="modal-title">Not enough funds!</h3>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="cancel()">Close</button>
+  </div>
+</script>

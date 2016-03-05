@@ -1,0 +1,14 @@
+{
+  "name": "reedsy",
+  "description": "Interview App",
+  "version": "0.0.0",
+  "homepage": "",
+  "license": "",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-ui-router": "^0.2.17",
+    "angular-bootstrap": "^1.1.2",
+    "bootstrap": "^3.3.6"
+  }
+}

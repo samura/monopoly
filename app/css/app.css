@@ -1,0 +1,201 @@
+h1 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+h2 {
+  font-size: 20px;
+}
+nav .btn {
+  margin-top: 8px;
+}
+
+.container > .row {
+  border: 1px solid #ccc;
+  min-height: 100%;
+}
+
+.left-side,
+.right-side {
+  height: 100%;
+  overflow: auto;
+}
+.left-side {
+  border-right: 1px solid #ccc;
+}
+.left-side .header .top {
+  border-bottom: 1px solid #ccc;
+}
+.left-side .input-group-addon {
+  width: 100px;
+}
+
+.right-side {
+  padding: 0;
+  position: relative;
+}
+
+.right-side .play-table img {
+  max-width: 300px;
+}
+.right-side .play-table .dices {
+  font-size: 100px;
+  position: absolute;
+  top: 190px;
+  right: 0;
+}
+
+.history {
+  line-height: 15px;
+}
+
+.player-position {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  text-shadow: 0 0 5px #f00;
+  margin-top: 5px;
+}
+
+.property-position {
+  padding: 2px;
+  position: absolute;
+  height: 12px;
+  line-height: 9px;
+  font-size: 6px;
+  letter-spacing: -0.7px;
+}
+
+.padding-20 {
+  padding: 10px 0;
+}
+
+/* positions */
+.position-0,
+.position-30,
+.position-31,
+.position-32,
+.position-33,
+.position-34,
+.position-35,
+.position-36,
+.position-37,
+.position-38,
+.position-39 {
+  left: 260px;
+}
+.position-10,
+.position-0,
+.position-1,
+.position-2,
+.position-3,
+.position-4,
+.position-5,
+.position-6,
+.position-7,
+.position-8,
+.position-9{
+  top: 260px;
+}
+
+.position-10,
+.position-11,
+.position-12,
+.position-13,
+.position-14,
+.position-15,
+.position-16,
+.position-17,
+.position-18,
+.position-19,
+.position-20{
+  left: 0px;
+}
+.position-20,
+.position-21,
+.position-22,
+.position-23,
+.position-24,
+.position-25,
+.position-26,
+.position-27,
+.position-28,
+.position-29,
+.position-30{
+  top: 0px;
+}
+
+.position-1,
+.position-29{
+  left: 236px;
+}
+.position-2,
+.position-28{
+  left: 212px;
+}
+.position-3,
+.position-27{
+  left: 187px;
+}
+.position-4,
+.position-26{
+  left: 163px;
+}
+.position-5,
+.position-25{
+  left: 138px;
+}
+.position-6,
+.position-24{
+  left: 113px;
+}
+.position-7,
+.position-23{
+  left: 89px;
+}
+.position-8,
+.position-22{
+  left: 64px;
+}
+.position-9,
+.position-21{
+  left: 40px;
+}
+
+.position-11,
+.position-39{
+  top: 236px;
+}
+.position-12,
+.position-38{
+  top: 211px;
+}
+.position-13,
+.position-37{
+  top: 188px;
+}
+.position-14,
+.position-36{
+  top: 162px;
+}
+.position-15,
+.position-35{
+  top: 138px;
+}
+.position-16,
+.position-34{
+  top: 113px;
+}
+.position-17,
+.position-33{
+  top: 88px;
+}
+.position-18,
+.position-32{
+  top: 66px;
+}
+.position-19,
+.position-31{
+  top: 39px;
+}
+
+
