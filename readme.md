@@ -13,7 +13,7 @@ Visit the demo page http://samura.github.io/monopoly/
 ## Requirements
 - npm
 
-## Instalation
+## Installation
 This show be enough to get everything installed and server running.
 ```bash
 git clone https://github.com/samura/monopoly
